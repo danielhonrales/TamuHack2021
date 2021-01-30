@@ -5,7 +5,7 @@ async function scrape(url){
     const page = await browser.newPage();
     await page.goto(url);
 
-    const [el] = await page.$x('//*[@id="firstHeading"]');
+    const [el] = await page.$x('/html/body/div[2]/div/main/div[1]/div[2]/div[1]/div[1]/div[1]/div/h1');
     const txt = await el.getProperty('textContent');
     const rawtxt = await txt.jsonValue();
 
@@ -15,4 +15,4 @@ async function scrape(url){
     browser.close();
 }
 
-scrape('https://en.wikipedia.org/wiki/Website');
+scrape('https://www.allrecipes.com/recipe/17066/janets-rich-banana-bread/');
