@@ -1,9 +1,8 @@
 const express = require('express');
 const path = require('path');
 const datastore = require('nedb');
-const data = require('./data');
-const logger = require('./logger')
 const bodyParser = require('body-parser');
+const scrapers = require('./scrapers');
 
 const app = express();
 
@@ -11,34 +10,29 @@ const app = express();
 //app.use(logger);
 
 const database = new datastore('database.db');
-database.loadDatabase();
-database.insert({ name: "Cake", ingredients: "wheat", rating: "3"})
 
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/formdata', (req, res) => {
-    database.insert({name: req.body.name, ingredients: "garbage", rating: "0"})
-    res.json(req.body);
+    scrapers.getData("cheese");//req.body.ingredient);
 });
 
-app.get('/formdata', (req, res) => {
-    console.log("test2");
+app.get('/conversion', (req, res) => {
+    database.loadDatabase();
     database.find({}, (err, data) => {
         if(err){
             res.end();
             console.log("failed");
             return;
         }
-        res.json(data);
+        res.send(data)
     });
 });
 
-
 // Set static folder (like default files)
 app.use(express.static(path.join(__dirname)));
-
 
 const PORT = process.env.PORT || 5000;
 

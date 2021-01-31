@@ -1,9 +1,13 @@
 const puppeteer = require('puppeteer');
 const datastore = require('nedb');
 const database = new datastore('database.db');
+const fs = require('fs');
+
 database.loadDatabase();
 
 async function getData(mainIngredient) {
+
+    fs.truncate('./database.db', 0, function(){console.log('done')})
 
     const browser = await puppeteer.launch({headless: true });
     const page = await browser.newPage();
@@ -35,3 +39,5 @@ async function getData(mainIngredient) {
     }
 
 }
+
+module.exports.getData = getData;

@@ -28,6 +28,7 @@
                 <label for="ingredientForm">Enter an ingredient: </label>
                 <input type="text" id="ingredientForm" name="ingredientForm"><br>
                 <input type="submit" id="formSubmit" name="formSubmit"><br>
+                <input type="submit" id="convert" name="convert"><br>
 
             </div>
 
@@ -63,14 +64,12 @@
     </div>
 
     <script>
-        $('body').on('click', '#formSubmit', function(event){
-            event.preventDefault();
-            event.stopPropagation();
-            const name = document.getElementById('ingredientForm').value;
+        $('body').on('click', '#formSubmit', function(){
+            //const ingredient = document.getElementById('Ingredients').value;
             $.ajax({  
                     url: '/formdata', 
                     type: 'POST', 
-                    data: { name: name }, 
+                    data: { ingredient: "eat" }, 
                     success: () => { 
                         console.log("success");
                     }, 
@@ -80,7 +79,35 @@
                 });
         });
         
+        $('body').on('click', '#convert', function(){
+            $.ajax({  
+                    url: '/conversion', 
+                    type: 'GET', 
+                    data: { }, 
+                    success: (recipes) => { 
+                        console.log("success");
+                        for(var i in recipes){
+                            console.log(recipes[i]);
+                            var div = document.createElement("div");
+                            div.class = "recipe";
+                            
+                            var title = document.createElement("h3");
+                            title.innerText = recipes[i].name;
+                            div.appendChild(title);
 
+                            var url = document.createElement("p");
+                            url.innerText = recipes[i].url;
+                            div.appendChild(url);
+                            
+                            document.getElementById("recipeList").appendChild(div);
+                        }
+                    }, 
+                    error: () => { 
+                        console.log("error");
+                    } 
+                });
+            
+        });
         /*getData();
         async function getData(){ 
             const res = await fetch('/formdata');
