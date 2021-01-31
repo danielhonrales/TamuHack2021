@@ -1,14 +1,26 @@
-const express = require('express')
-const app = express()
-const port = 3000
+const express = require('express');
+const path = require('path');
+const data = require('./data');
+const logger = require('./logger')
 
-app.get('/creators', async (req, res) => {
+const app = express();
 
+// Init middleware
+//app.use(logger);
 
-})
+// Get entire json
+app.get('/api/members', (req, res) => {
+    res.json(data);
+});
 
-app.post('/creators', async (req, res) => {
-    
-})
+// Get single json
+app.get('/api/members/:id', (req, res) => {
+    res.json(data.filter(recipe => recipe.rating === req.params.id));
+});
 
-app.listen(port, () => console.log('Example app listening on port ${port}!'))
+// Set static folder (like default files)
+app.use(express.static(path.join(__dirname)));
+
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
