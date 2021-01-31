@@ -1,0 +1,95 @@
+/* Color Scheme
+#606c38
+#283618
+#fefae0
+#dda15e
+#bc6c25
+*/
+
+h1 {
+    padding: 10px;
+    float: left;
+    align-self: center;
+}
+
+h2 {
+    padding: 10px;
+    float: right;
+    align-self: center;
+}
+
+#header {
+    display: block; 
+    background-color: #606c38;
+    margin-bottom: 20px;
+    width: 100%;
+    height: 100px;  
+    font-family: "Merienda One";
+}
+
+#headerwrap {
+    display: block;
+}
+
+#title {
+    width:60%;
+}
+
+#description {
+    width:40%;
+    float: right;
+}
+
+#main {
+    display: flex;
+    flex-direction: row;
+    font-family: "Merienda One";
+}
+
+.mainBlock {
+    display: flex;
+    flex-direction: column;
+    background-color: #dda15e; 
+    margin-left: auto;
+    margin-right: auto;
+    width: 47%;
+    min-height: 700px;
+    padding: 10px;
+}
+
+#ingredientList {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-left: 10px;
+    margin-right: auto;
+    margin-top: 10px;
+}
+
+.ingredient {
+    display: flex;
+    align-items: center;
+    background-color: #bc6c25;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.ingredientText {
+}
+
+#recipeList {
+    display: flex;
+    background-color: royalblue;
+    flex-direction: column;
+}
+
+.recipe {
+    background-color: #bc6c25;
+    
+}
+
+.recipeHeader{
+    display: flex;
+    align-items: center;
+    flex: row;
+}
