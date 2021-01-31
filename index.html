@@ -1,120 +1,91 @@
-<!DOCTYPE html>
 <html>
-    
-<head>
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Merienda+One">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-</head>
+    <head>
+        <link rel="stylesheet" type="text/css" href="NSH.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Merienda+One">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-<body style="background-color: #fefae0;">
-    
-    <div id="header">
-        <div id="headerwrap">
-            <div id="title">
-                <h1>TAMUSnackHack</h1>
-            </div>
-            <div id="description">
-                <h2>Description</h2>
-            </div>
+        <title>Snack Hacks</title> 
+    </head>
+
+    <body>
+        <h1>Snack Hacks</h1>
+        <p id = 'alpha'>Don't know what to cook? We can make it easy for you!</p>
+        <p id= 'bravo'>Just tell us what ingredients you have in your kitchen, and we'll show you all the recipes you can make.</p>
+        <div id= "one">
+           <label for="Ingredients">Choose an ingredient:</label>
+           <select name="Ingredients" id="Ingredients" onchange="findRecipes()">
+                <option value="choose">Choose</option>
+               <option value="beef">Beef</option>
+               <option value="cheese">Cheese</option>
+               <option value="chicken">Chicken</option>
+               <option value="egg">Egg</option>
+               <option value="fruit">Fruit</option>
+               <option value="lamb">Lamb</option>
+               <option value="fish">Fish</option>
+               <option value="pasta and noodles">Pasta and Noodles</option>
+               <option value="pork">Pork</option>
+               <option value="rice">Rice</option>
+               <option value="seafood">Seafood</option>
+               <option value="turkey">Turkey</option>
+               <option value="vegetables">Vegetables</option>
+           </select>
+           <button type="button" onclick="loadRecipes()" margin-left="auto" margin-right="auto">Find Recipes!</button>
         </div>
-    </div>
 
-    <div id="main">
-        <div class="mainBlock">
-            <h3>Ingredients</h3>
-            <div>
-
-                <label for="ingredientForm">Enter an ingredient: </label>
-                <input type="text" id="ingredientForm" name="ingredientForm"><br>
-                <input type="submit" id="formSubmit" name="formSubmit"><br>
-                <input type="submit" id="convert" name="convert"><br>
-
-            </div>
-
-            <div id="ingredientList">
-                <div class="ingredient">
-                    <img src="x.png" alt="x" width="20" height="20" style="margin-right: 10px;">
-                    <p>TomatoTomatoTomatoTomatoTomatoTomatoTomatoTomato</p>
-                </div>
-                <div class="ingredient">
-                    <img src="x.png" alt="x" width="20" height="20" style="margin-right: 10px;">
-                    <p>Tomato</p>
-                </div>
-                <div class="ingredient">
-                    <img src="x.png" alt="x" width="20" height="20" style="margin-right: 10px;">
-                    <p>TomatoTomatoTomato</p>
+            <div class= "two">
+                <h2>Recipes</h2>                
+                
+                <div id="RecipeList"> 
+                    
                 </div>
             </div>
-        </div>
-    
-        <div class="mainBlock">
-            <h3>Recipes</h3>
-
-            <div id="recipeList">
-                <div class="recipe">
-                    <div class="recipeHeader">
-                        <img src="bread.png" alt="x" width="20" height="20" style="margin-right: 10px;">
-                        <p>Bread</p> <br>
-                    </div>
-                    <p>Description</p>
-                </div>
-            </div>
-        </div>
-    </div>
+    </body>
 
     <script>
-        $('body').on('click', '#formSubmit', function(){
-            //const ingredient = document.getElementById('Ingredients').value;
+        function findRecipes(){
+            const ingredient = document.getElementById('Ingredients').value;
             $.ajax({  
-                    url: '/formdata', 
-                    type: 'POST', 
-                    data: { ingredient: "eat" }, 
-                    success: () => { 
-                        console.log("success");
-                    }, 
-                    error: () => { 
-                        console.log("error");
-                    } 
-                });
-        });
+                url: '/formdata', 
+                type: 'POST', 
+                data: { ingredient: ingredient }, 
+                success: () => { 
+                    console.log("success");
+                }, 
+                error: () => { 
+                    console.log("error");
+                } 
+            });
+        }
         
-        $('body').on('click', '#convert', function(){
+        function loadRecipes(){
             $.ajax({  
-                    url: '/conversion', 
-                    type: 'GET', 
-                    data: { }, 
-                    success: (recipes) => { 
-                        console.log("success");
-                        for(var i in recipes){
-                            console.log(recipes[i]);
-                            var div = document.createElement("div");
-                            div.class = "recipe";
+                url: '/conversion', 
+                type: 'GET', 
+                data: { }, 
+                success: (recipes) => { 
+                    console.log("success");
+                    for(var i in recipes){
+                        console.log(recipes[i]);
+                        var div = document.createElement("div");
+                        
+                        div.classList.add("Recipe");
                             
-                            var title = document.createElement("h3");
-                            title.innerText = recipes[i].name;
-                            div.appendChild(title);
-
-                            var url = document.createElement("p");
-                            url.innerText = recipes[i].url;
-                            div.appendChild(url);
+                        var title = document.createElement("a");
+                        title.href = recipes[i].url;
+                        title.innerText = recipes[i].name;
+                        div.appendChild(title);
                             
-                            document.getElementById("recipeList").appendChild(div);
-                        }
-                    }, 
-                    error: () => { 
-                        console.log("error");
-                    } 
-                });
-            
-        });
-        /*getData();
-        async function getData(){ 
-            const res = await fetch('/formdata');
-            const data = await res.json();
-            console.log(data);
-        }*/
+                        document.getElementById("RecipeList").appendChild(div);
+                    }
+                }, 
+                error: () => { 
+                    console.log("error");
+                } 
+            });
+        }
     </script>
-</body>
 
 </html>
+
+
+

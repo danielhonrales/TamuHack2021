@@ -6,9 +6,6 @@ const scrapers = require('./scrapers');
 
 const app = express();
 
-// Init middleware
-//app.use(logger);
-
 const database = new datastore('database.db');
 
 
@@ -16,7 +13,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/formdata', (req, res) => {
-    scrapers.getData("cheese");//req.body.ingredient);
+    scrapers.getData(req.body.ingredient);
+    res.send("found recipes");
 });
 
 app.get('/conversion', (req, res) => {

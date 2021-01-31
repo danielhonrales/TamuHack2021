@@ -7,7 +7,7 @@ database.loadDatabase();
 
 async function getData(mainIngredient) {
 
-    fs.truncate('./database.db', 0, function(){console.log('done')})
+    fs.truncate('./database.db', 0, function(){console.log("Cleared database")})
 
     const browser = await puppeteer.launch({headless: true });
     const page = await browser.newPage();
@@ -37,7 +37,8 @@ async function getData(mainIngredient) {
     for (var i = 0; i < recipeTitles.length; i++) {
         database.insert({name:recipeTitles[i], url:recipeUrls[i]});
     }
-
+    
+    console.log("Filled database")
 }
 
 module.exports.getData = getData;
