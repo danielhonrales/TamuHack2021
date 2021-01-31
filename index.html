@@ -4,12 +4,11 @@
 <head>
     <link rel="stylesheet" type="text/css" href="style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Merienda+One">
-    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 
 <body style="background-color: #fefae0;">
     
-    <div id="bigboi">
     <div id="header">
         <div id="headerwrap">
             <div id="title">
@@ -24,10 +23,12 @@
     <div id="main">
         <div class="mainBlock">
             <h3>Ingredients</h3>
-
             <div>
+
                 <label for="ingredientForm">Enter an ingredient: </label>
                 <input type="text" id="ingredientForm" name="ingredientForm"><br>
+                <input type="submit" id="formSubmit" name="formSubmit"><br>
+
             </div>
 
             <div id="ingredientList">
@@ -60,7 +61,33 @@
             </div>
         </div>
     </div>
-    </div>
+
+    <script>
+        $('body').on('click', '#formSubmit', function(event){
+            event.preventDefault();
+            event.stopPropagation();
+            const name = document.getElementById('ingredientForm').value;
+            $.ajax({  
+                    url: '/formdata', 
+                    type: 'POST', 
+                    data: { name: name }, 
+                    success: () => { 
+                        console.log("success");
+                    }, 
+                    error: () => { 
+                        console.log("error");
+                    } 
+                });
+        });
+        
+
+        /*getData();
+        async function getData(){ 
+            const res = await fetch('/formdata');
+            const data = await res.json();
+            console.log(data);
+        }*/
+    </script>
 </body>
 
 </html>
